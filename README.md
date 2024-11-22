@@ -47,7 +47,7 @@ Ensure docker is installed by running this command:
 
 5. Generate a secret key that is unique to your instance:
 **NOTE: Do not use the default secret key. You must generate a new key for your instance**
-    **- You can configure your SECRET KEY and default ports by running ./docker-compose-config.sh (you must have python3 and python3-pip installed on the system to utilize this script)**
+    **- You can configure your SECRET KEY and default ports for proxies by running `./docker-compose-config.sh` (you must have python3 and python3-pip installed on the system to utilize this script)**
 	- Run: `openssl rand -hex 32` in your terminal. This generates a random key for you to use.
 	- Then, open the docker-compose.yml file with the command: `nano docker-compose.yml` or `vi docker-compose.yml`
 	- Lastly, substitute "\<randomly generated secret key\>" for your generated key.
@@ -70,8 +70,8 @@ Tada! Borea should now be accessible on the domain you set up or the IP of your 
 
 If Borea is running behind a proxy, you need to do the following:
 
-- Make sure you have the `IS_BEHIND_PROXY` environment variable set to `'true'` under `services > web > environment`.
-- If deploying with Docker, use the `docker-compose-config.py` script to expose the appropriate port in `docker-compose.yml`. By default port 80 is exposed, causing a port conflict between the Borea Docker container and the proxy.
+- Make sure you have the `IS_BEHIND_PROXY` environment variable set to `'true'` under `services > web > environment`. If you do not, you will likely encounter a redirect error.
+- If deploying with Docker, use the `docker-compose-config.py` script by running `./docker-compose-config.sh` in the root of the project. This will expose the appropriate port in `docker-compose.yml`. By default port 80 is exposed, causing a port conflict between the Borea Docker container and the proxy.
 - Depending on your setup, you might also need to set the `ALLOWED_HOSTS` environment variable under `services > web > environment`. Try this if the above settings do not solve your issue.
 
 ### Suggested configuration
@@ -100,6 +100,17 @@ Ensure SSL is enabled, and include the `X-Forwarded-Proto header` so that Borea 
     RequestHeader set X-Forwarded-Proto expr=%{REQUEST_SCHEME}
     # SSL & other configuration here
 </VirtualHost>
+```
+#### Caddy Config
+
+Caddy provides the most straightforward implementation, but is limited on larger deployments. After installing Caddy, your configuration should look something like this:
+
+```
+cat /etc/caddy/Caddyfile
+<your domain> {
+    encode gzip
+    reverse_proxy 127.0.0.1:8000
+}
 ```
 
 ---
