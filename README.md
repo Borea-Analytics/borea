@@ -27,6 +27,7 @@ Join our [Borea Discord server](https://discord.gg/RNueFbmGnM) if you need help 
 - 4 GB RAM
 - 2-core CPU
 - 50 GB memory
+- VM must run using x86 infrastructure
 
 ---
 
@@ -46,6 +47,7 @@ Ensure docker is installed by running this command:
 
 5. Generate a secret key that is unique to your instance:
 **NOTE: Do not use the default secret key. You must generate a new key for your instance**
+    **- You can configure your SECRET KEY and default ports by running ./docker-compose-config.sh (you must have python3 and python3-pip installed on the system to utilize this script)**
 	- Run: `openssl rand -hex 32` in your terminal. This generates a random key for you to use.
 	- Then, open the docker-compose.yml file with the command: `nano docker-compose.yml` or `vi docker-compose.yml`
 	- Lastly, substitute "\<randomly generated secret key\>" for your generated key.
@@ -69,7 +71,7 @@ Tada! Borea should now be accessible on the domain you set up or the IP of your 
 If Borea is running behind a proxy, you need to do the following:
 
 - Make sure you have the `IS_BEHIND_PROXY` environment variable set to `'true'` under `services > web > environment`.
-- If deploying with Docker, use the docker-compose-config.py script to expose the appropriate port in docker-compose.yml. By default port 80 is exposed, causing a port conflict between the Borea Docker container and the proxy.
+- If deploying with Docker, use the `docker-compose-config.py` script to expose the appropriate port in `docker-compose.yml`. By default port 80 is exposed, causing a port conflict between the Borea Docker container and the proxy.
 - Depending on your setup, you might also need to set the `ALLOWED_HOSTS` environment variable under `services > web > environment`. Try this if the above settings do not solve your issue.
 
 ### Suggested configuration
