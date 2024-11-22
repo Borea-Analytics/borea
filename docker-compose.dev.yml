@@ -1,0 +1,58 @@
+services:
+    db:
+        image: postgres:alpine
+        container_name: borea_dev_db
+        environment:
+            POSTGRES_USER: borea
+            POSTGRES_DB: borea
+            POSTGRES_PASSWORD: borea
+        ports:
+            - '5439:5432'
+    redis:
+        image: 'redis:alpine'
+        container_name: borea_dev_redis
+        ports:
+            - '6379:6379'
+    web:
+        build:
+            context: .
+            dockerfile: dev.Dockerfile
+        container_name: borea_dev_web
+        command: ./bin/docker-dev-web
+        volumes:
+            - .:/code
+        ports:
+            - '8000:8000'
+            - '8234:8234'
+        environment:
+            IS_DOCKER: 'true'
+            DATABASE_URL: 'postgres://borea:borea@db:5432/borea'
+            REDIS_URL: 'redis://redis:6379/'
+            SECRET_KEY: '<randomly generated secret key>'
+            DEBUG: 'true'
+        depends_on:
+            - db
+            - redis
+        links:
+            - db:db
+            - redis:redis
+    worker:
+        build:
+            context: .
+            dockerfile: dev.Dockerfile
+        container_name: borea_dev_worker
+        command: ./bin/docker-worker
+        volumes:
+            - .:/code
+        environment:
+            IS_DOCKER: 'true'
+            DATABASE_URL: 'postgres://borea:borea@db:5432/borea'
+            REDIS_URL: 'redis://redis:6379/'
+            SECRET_KEY: '<randomly generated secret key>'
+            DEBUG: 'true'
+        depends_on:
+            - db
+            - redis
+        links:
+            - db:db
+            - redis:redis

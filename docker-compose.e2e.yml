@@ -1,0 +1,33 @@
+services:
+    db:
+        image: postgres:alpine
+        container_name: borea_e2e_db
+        environment:
+            POSTGRES_USER: borea
+            POSTGRES_DB: borea
+            POSTGRES_PASSWORD: borea
+    redis:
+        image: 'redis:alpine'
+        container_name: borea_e2e_redis
+    web:
+        container_name: borea_e2e_server
+        build:
+            context: .
+            dockerfile: production.Dockerfile
+        command: ./bin/docker & tail -f /dev/null
+        ports:
+            - '8000:8000'
+        environment:
+            IS_DOCKER: 'true'
+            DATABASE_URL: 'postgres://borea:borea@db:5432/borea'
+            REDIS_URL: 'redis://redis:6379/'
+            SECRET_KEY: '<randomly generated secret key>'
+            DEBUG: 1
+            DISABLE_SECURE_SSL_REDIRECT: 1
+            OPT_OUT_CAPTURE: 1
+        depends_on:
+            - db
+            - redis
+        links:
+            - db:db
+            - redis:redis
