@@ -32,4 +32,4 @@ services:
             - 8000:8000
             - 80:8000
 volumes:
-    postgres-data:
+  postgres-data:
