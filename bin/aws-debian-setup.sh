@@ -7,7 +7,6 @@ set -e
 PROJECT_TITLE="Borea Analytics"
 DOCKER_COMPOSE_FILE="docker-compose.yml"
 DOMAIN=""
-IS_BEHIND_PROXY=false
 
 # Functions
 function prompt_user() {
@@ -16,16 +15,10 @@ function prompt_user() {
   # Prompt for domain
   read -p "Enter your domain (e.g., example.com): " DOMAIN
 
-  # Ask about reverse proxy
-  read -p "Are you using a reverse proxy? (yes/no): " reverse_proxy
-  if [[ "$reverse_proxy" =~ ^[Yy][Ee][Ss]$ ]]; then
-    IS_BEHIND_PROXY=true
-  else
-    # Ask if they want to install Caddy
-    read -p "Would you like us to install and configure Caddy for you? (yes/no): " install_caddy
-    if [[ ! "$install_caddy" =~ ^[Yy][Ee][Ss]$ ]]; then
-      echo "No reverse proxy or Caddy will be set up. Continuing setup..."
-    fi
+  # Ask if they want to install Caddy
+  read -p "Would you like us to install and configure Caddy for you? (yes/no): " install_caddy
+  if [[ ! "$install_caddy" =~ ^[Yy][Ee][Ss]$ ]]; then
+    echo "Continuing setup..."
   fi
 }
 
@@ -38,8 +31,9 @@ function install_packages() {
     curl \
     lsof \
     ca-certificates \
-    git \
-    yq
+    python3 \
+    python3-pip \
+    git
 }
 
 function install_docker() {
@@ -73,12 +67,6 @@ function configure_docker_compose() {
   # Run docker-compose-config.sh
   chmod +x docker-compose-config.sh
   ./docker-compose-config.sh
-
-  # Add reverse proxy environment variable if applicable
-  if $IS_BEHIND_PROXY; then
-    echo "Adding IS_BEHIND_PROXY: 'true' to the web service environment..."
-    yq eval '.services.web.environment += {"IS_BEHIND_PROXY": "true"}' -i "$DOCKER_COMPOSE_FILE"
-  fi
 }
 
 function start_docker() {
@@ -90,8 +78,8 @@ function setup_caddy() {
   echo "Setting up Caddy server..."
 
   # Add Caddy's APT repository
-  curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo tee /usr/share/keyrings/caddy-stable-archive-keyring.gpg > /dev/null
-  curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list > /dev/null
+  curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+  curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
 
   # Install Caddy
   sudo apt update && sudo apt install -y caddy
