@@ -96,16 +96,34 @@ function setup_caddy() {
   # Install Caddy
   sudo apt update && sudo apt install -y caddy
 
-  # Configure Caddyfile
-  cat <<EOF | sudo tee /etc/caddy/Caddyfile
+  # Create or overwrite the Caddyfile
+  echo "Creating /etc/caddy/Caddyfile..."
+  cat <<EOF | sudo tee /etc/caddy/Caddyfile > /dev/null
 $DOMAIN {
     encode gzip
     reverse_proxy 127.0.0.1:8000
 }
 EOF
 
-  # Reload Caddy to apply configuration
+  # Validate Caddyfile syntax
+  echo "Validating Caddyfile..."
+  sudo caddy validate --config /etc/caddy/Caddyfile
+  if [[ $? -ne 0 ]]; then
+    echo "Error: Caddyfile validation failed! Please check the configuration."
+    exit 1
+  fi
+
+  # Ensure the Caddyfile exists
+  if [[ ! -f /etc/caddy/Caddyfile ]]; then
+    echo "Error: /etc/caddy/Caddyfile not found!"
+    exit 1
+  fi
+
+  # Reload Caddy to apply the configuration
+  echo "Reloading Caddy service..."
   sudo systemctl reload caddy
+
+  echo "Caddy setup is complete and configuration is valid!"
 }
 
 # Main Script Execution
