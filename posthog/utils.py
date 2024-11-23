@@ -239,8 +239,8 @@ def render_template(template_name: str, request: HttpRequest, context: Dict = {}
             context["js_posthog_api_key"] = f"'{team.api_token}'"
             context["js_posthog_host"] = "window.location.origin"
     else:
-        context["js_posthog_api_key"] = "'sTMFPsFhdP1Ssg'"
-        context["js_posthog_host"] = "'https://app.posthog.com'"
+        context["js_posthog_api_key"] = "'2pH-zGegIlKXyfuyPYtuWHfk6EyK-HvtMYoN1ghL_Ow'"
+        context["js_posthog_host"] = "'https://demo.borea.dev'"
 
     html = template.render(context, request=request)
     return HttpResponse(html)

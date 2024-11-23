@@ -26,17 +26,34 @@ def read_config() -> dict:
     return config
 
 
-def save_config(config: dict, *, host_port: int, secret_key: str) -> None:
+def save_config(config: dict, *, host_port: int, secret_key: str, behind_proxy: bool) -> None:
     with open(FILE_PATH, "w") as file:
         try:
             config["services"]["web"]["ports"] = [f"{host_port}:8000"]
             config["services"]["web"]["environment"]["SECRET_KEY"] = secret_key
+            if behind_proxy == True:
+                config["services"]["web"]["environment"]["IS_BEHIND_PROXY"] = "true"
+            else:
+                pass
         except KeyError:
             raise ValueError("Current docker-compose.yml is malformed! Get a fresh one from the Borea repository.")
         yaml.dump(
             config, stream=file, indent=4,
         )
 
+def input_is_behind_proxy(n: str, default: str = 'false') -> bool:
+    print(
+        f"\n{n}. Will you be running Borea behind a proxy? [y/N]\n"
+    )
+    while True:
+        try:
+            is_proxy = input().strip().lower()
+            if is_proxy == "y":
+                return True
+            else:
+                return False
+        except Exception as e:
+            print(f"Error: {e}. Please enter 'y' or 'n'.")
 
 def input_host_port(n: int, default: int = 80) -> int:
     print(
@@ -72,10 +89,11 @@ def main():
 
     print("\nIf you're OK with a step's default value, you can skip by pressing Enter/Return.")
 
-    host_port = input_host_port(1)
-    secret_key = input_secret_key(2)
+    behind_proxy = input_is_behind_proxy(1)
+    host_port = input_host_port(2)
+    secret_key = input_secret_key(3)
 
-    save_config(config, host_port=host_port, secret_key=secret_key)
+    save_config(config, host_port=host_port, secret_key=secret_key, behind_proxy=behind_proxy)
 
     print("\nConfigured and saved docker-compose.yml. You can now use it in production.")
 

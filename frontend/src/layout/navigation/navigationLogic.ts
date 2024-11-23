@@ -119,8 +119,8 @@ export const navigationLogic = kea<navigationLogicType<UserType, SystemStatus, W
             null as string | null,
             {
                 loadLatestVersion: async () => {
-                    const versions = await api.get('https://update.posthog.com/versions')
-                    return versions[0].version
+                    const versions = "0.0.1"
+                    return versions
                 },
             },
         ],
