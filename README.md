@@ -1,5 +1,6 @@
 # Borea
 Borea is product analytics for developers. Track every event and session on your app to really understand how people use your software. 
+We utilize a streamlined form of an older PostHog release for data processing, while we build our own tracking infrastructure, including SDKs, tracking scripts, and cloud deployment.
 
 <br /><br />
 
