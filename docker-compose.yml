@@ -24,9 +24,7 @@ services:
             IS_DOCKER: 'true'
             IS_BEHIND_PROXY: 'false'
             REDIS_URL: redis://redis:6379/
-            SECRET_KEY: '1234567890987654321'
-            SECURE_COOKIES: 'false'
-            DISABLE_SECURE_SSL_REDIRECT: 'true'
+            SECRET_KEY: '<randomly generated secret key>'
         links:
             - db:db
             - redis:redis
@@ -34,4 +32,4 @@ services:
             - 8000:8000
             - 80:8000
 volumes:
-    postgres-data:
+  postgres-data:
