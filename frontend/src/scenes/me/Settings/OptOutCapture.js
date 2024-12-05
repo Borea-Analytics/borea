@@ -11,7 +11,7 @@ export function OptOutCapture() {
     return (
         <div>
             <p>
-                Borea uses PostHog (unsurprisingly!) to capture information about how people are using the product. We
+                Borea uses PostHog to capture information about how people are using the product. We
                 believe that product analytics is crucial to making Borea the most useful it can be, for everyone.
             </p>
             <p>
@@ -27,7 +27,7 @@ export function OptOutCapture() {
                         },
                     }).then(() => setSaved(true))
                 }}
-                defaultChecked={true}
+                defaultChecked={user.anonymize_data}
             />
             <label
                 htmlFor="anonymize-data-collection"

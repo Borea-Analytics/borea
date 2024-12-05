@@ -2,10 +2,8 @@ import React, { useRef, useState, useEffect } from 'react'
 import { Layout, Menu, Modal, Popover } from 'antd'
 import {
     ProjectFilled,
-    // ApiFilled,
     ClockCircleFilled,
     DownOutlined,
-    // MessageOutlined,
     PushpinFilled,
     PlusOutlined,
     SettingOutlined,
@@ -21,7 +19,6 @@ import {
     IconCohorts,
     IconDashboard,
     IconEvents,
-    // IconFeatureFlags,
     IconInsights,
     IconPerson,
     IconToolbar,
@@ -30,7 +27,6 @@ import { navigationLogic } from './navigationLogic'
 import { ToolbarModal } from '~/layout/ToolbarModal/ToolbarModal'
 import { dashboardsModel } from '~/models'
 import { DashboardType } from '~/types'
-import { userLogic } from 'scenes/userLogic'
 import { organizationLogic } from 'scenes/organizationLogic'
 
 // to show the right page in the sidebar
@@ -222,50 +218,34 @@ function _MainNavigation(): JSX.Element {
                     <MenuItem title="Persons" icon={<IconPerson />} identifier="persons" to="/persons" />
                     <MenuItem title="Cohorts" icon={<IconCohorts />} identifier="cohorts" to="/cohorts" />
                     <div className="divider" />
-                    {/* <MenuItem
-                        title="Feat. Flags"
-                        icon={<IconFeatureFlags />}
-                        identifier="featureFlags"
-                        to="/feature_flags"
-                    />
-                    <div className="divider" />
-                    {user?.plugin_access.configure ? (
-                        <MenuItem title="Plugins" icon={<ApiFilled />} identifier="plugins" to="/project/plugins" />
-                    ) : null}
-                    <MenuItem
-                        title="Annotations"
-                        icon={<MessageOutlined />}
-                        identifier="annotations"
-                        to="/annotations"
-                    /> */}
                     <MenuItem
                         title="Project"
                         icon={<ProjectFilled />}
                         identifier="projectSettings"
                         to="/project/settings"
                     />
-                    <div className="divider" />
+                    {/* <div className="divider" />
                     <MenuItem
                         title="Toolbar"
                         icon={<IconToolbar />}
                         identifier="toolbar"
                         to=""
                         onClick={() => setToolbarModalOpen(true)}
-                    />
+                    /> */}
                     <div className={`scroll-indicator ${canScroll ? '' : 'hide'}`} onClick={scrollToBottom}>
                         <DownOutlined />
                     </div>
                 </div>
             </Layout.Sider>
 
-            <Modal
+            {/* <Modal
                 bodyStyle={{ padding: 0 }}
                 visible={toolbarModalOpen}
                 footer={null}
                 onCancel={() => setToolbarModalOpen(false)}
             >
                 <ToolbarModal />
-            </Modal>
+            </Modal> */}
         </>
     )
 }

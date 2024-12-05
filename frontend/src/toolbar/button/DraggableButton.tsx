@@ -8,7 +8,7 @@ import { Fire } from '~/toolbar/button/icons/Fire'
 import { Flag } from '~/toolbar/button/icons/Flag'
 import { ActionsTab } from '~/toolbar/actions/ActionsTab'
 import { ButtonWindow } from '~/toolbar/button/ButtonWindow'
-import { posthog } from '~/toolbar/posthog'
+import { borea } from '~/toolbar/borea'
 
 export function DraggableButton(): JSX.Element {
     const { dragPosition, heatmapPosition, heatmapWindowVisible, actionsWindowVisible, actionsPosition } = useValues(
@@ -27,7 +27,7 @@ export function DraggableButton(): JSX.Element {
                     saveDragPosition(x, y)
                 }}
                 onStop={(_, { x, y }) => {
-                    posthog.capture('toolbar dragged', { x, y })
+                    borea.capture('toolbar dragged', { x, y })
                     saveDragPosition(x, y)
                 }}
             >

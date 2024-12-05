@@ -10,7 +10,7 @@ import { ActionStepType, ActionType } from '~/types'
 import { ActionElementWithMetadata, ActionForm, ElementWithMetadata } from '~/toolbar/types'
 import { currentPageLogic } from '~/toolbar/stats/currentPageLogic'
 import { toolbarLogic } from '~/toolbar/toolbarLogic'
-import { posthog } from '~/toolbar/posthog'
+import { borea } from '~/toolbar/borea'
 import { collectAllElementsDeep } from 'query-selector-shadow-dom'
 
 type ActionElementMap = Map<HTMLElement, ActionElementWithMetadata[]>
@@ -370,11 +370,11 @@ export const elementsLogic = kea<
 
     listeners: ({ actions, values }) => ({
         enableInspect: () => {
-            posthog.capture('toolbar mode triggered', { mode: 'inspect', enabled: true })
+            borea.capture('toolbar mode triggered', { mode: 'inspect', enabled: true })
             actionsLogic.actions.getActions()
         },
         disableInspect: () => {
-            posthog.capture('toolbar mode triggered', { mode: 'inspect', enabled: false })
+            borea.capture('toolbar mode triggered', { mode: 'inspect', enabled: false })
         },
         selectElement: ({ element }) => {
             const inpsectForAction =
@@ -403,7 +403,7 @@ export const elementsLogic = kea<
                 }
             }
 
-            posthog.capture('toolbar selected HTML element', {
+            borea.capture('toolbar selected HTML element', {
                 element_tag: element?.tagName.toLowerCase(),
                 element_type: (element as HTMLInputElement)?.type,
                 has_href: !!(element as HTMLAnchorElement)?.href,

@@ -1,5 +1,4 @@
 #!/bin/bash
 set -e
 
-./bin/plugin-server &
 ./bin/docker-worker-celery --with-scheduler

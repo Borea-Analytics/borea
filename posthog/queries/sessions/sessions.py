@@ -210,8 +210,8 @@ def scale_time_series(data: List[float]) -> Tuple[List, str]:
         return data, "seconds"
 
     avg = sum(data) / _len
-    minutes = avg // 60.0
-    hours = minutes // 60.0
+    minutes = float(avg) // 60.0
+    hours = float(minutes) // 60.0
 
     if hours > 0:
         return [round(value / 3600, 2) for value in data], "hours"

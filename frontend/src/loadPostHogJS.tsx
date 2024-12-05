@@ -1,10 +1,9 @@
 import posthog from 'posthog-js'
-import * as Sentry from '@sentry/browser'
 
 export function loadPostHogJS(): void {
-    if (window.JS_POSTHOG_API_KEY) {
-        posthog.init(window.JS_POSTHOG_API_KEY, {
-            api_host: window.JS_POSTHOG_HOST,
+    if (window.JS_BOREA_HOST) {
+        posthog.init(window.JS_BOREA_HOST, {
+            api_host: window.JS_BOREA_HOST,
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             _capture_metrics: true,
@@ -18,15 +17,6 @@ export function loadPostHogJS(): void {
             loaded: function (ph) {
                 ph.opt_out_capturing()
             },
-        })
-    }
-
-    if ((window as any).SENTRY_DSN) {
-        Sentry.init({
-            dsn: (window as any).SENTRY_DSN,
-            ...(window.location.host.indexOf('app.posthog.com') > -1 && {
-                integrations: [new posthog.SentryIntegration(posthog, 'posthog', 1899813)],
-            }),
         })
     }
 }

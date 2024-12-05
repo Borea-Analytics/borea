@@ -2,7 +2,7 @@ import './ToolbarButton.scss'
 
 import React, { useRef, useEffect } from 'react'
 import { useActions, useValues } from 'kea'
-import { BoreaLogo } from '~/toolbar/assets/HogLogo'
+import { BoreaLogo } from '~/toolbar/assets/BoreaLogo'
 import { Circle } from '~/toolbar/button/Circle'
 import { toolbarButtonLogic } from '~/toolbar/button/toolbarButtonLogic'
 import { heatmapLogic } from '~/toolbar/elements/heatmapLogic'
@@ -16,18 +16,13 @@ import { Magnifier } from '~/toolbar/button/icons/Magnifier'
 import { actionsTabLogic } from '~/toolbar/actions/actionsTabLogic'
 import { actionsLogic } from '~/toolbar/actions/actionsLogic'
 import { Close } from '~/toolbar/button/icons/Close'
-import { QuestionOutlined } from '@ant-design/icons'
 import { Tooltip } from 'antd'
-
-const HELP_URL =
-    'https://posthog.com/docs/tutorials/toolbar?utm_medium=in-product&utm_source=in-product&utm_campaign=toolbar-help-button'
 
 export function ToolbarButton(): JSX.Element {
     const {
         extensionPercentage,
         heatmapInfoVisible,
         toolbarListVerticalPadding,
-        helpButtonOnTop,
         side,
         closeDistance,
         closeRotation,
@@ -113,7 +108,7 @@ export function ToolbarButton(): JSX.Element {
             rootNode
             width={46}
             className="floating-toolbar-button"
-            content={<BoreaLogo style={{ width: 45, cursor: 'pointer' }} />}
+            // content={<BoreaLogo style={{ width: 45, cursor: 'pointer' }} />}
             label={
                 isAuthenticated ? null : (
                     <div style={{ lineHeight: '22px', paddingTop: 15 }}>
@@ -146,24 +141,6 @@ export function ToolbarButton(): JSX.Element {
             />
             {isAuthenticated ? (
                 <>
-                    {/* <Circle
-                        width={32}
-                        extensionPercentage={extensionPercentage}
-                        distance={helpButtonOnTop ? 75 : 55}
-                        rotation={helpButtonOnTop ? (side === 'left' ? -95 + 360 : -95) : 90}
-                        content={<QuestionOutlined style={{ fontSize: 22 }} />}
-                        label="Help"
-                        zIndex={2}
-                        onClick={() => window.open(HELP_URL, '_blank')?.focus()}
-                        labelStyle={{ opacity: extensionPercentage > 0.8 ? (extensionPercentage - 0.8) / 0.2 : 0 }}
-                        style={{
-                            cursor: 'pointer',
-                            background: '#777',
-                            color: 'white',
-                            borderRadius: 10,
-                            transform: `scale(${0.2 + 0.8 * extensionPercentage})`,
-                        }}
-                    /> */}
                     <Circle
                         width={buttonWidth}
                         x={side === 'left' ? 80 : -80}

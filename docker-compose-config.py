@@ -41,9 +41,10 @@ def save_config(config: dict, *, host_port: int, secret_key: str, behind_proxy: 
             config, stream=file, indent=4,
         )
 
+
 def input_is_behind_proxy(n: str, default: str = 'false') -> bool:
     print(
-        f"\n{n}. Will you be running Borea behind a proxy? [y/N]\n"
+        f"\n{n}. Will you be running Borea behind a proxy? [y/N] (default: N)\n"
     )
     while True:
         try:
@@ -54,6 +55,7 @@ def input_is_behind_proxy(n: str, default: str = 'false') -> bool:
                 return False
         except Exception as e:
             print(f"Error: {e}. Please enter 'y' or 'n'.")
+
 
 def input_host_port(n: int, default: int = 80) -> int:
     print(

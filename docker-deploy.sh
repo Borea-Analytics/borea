@@ -16,7 +16,7 @@ function prompt_user() {
   read -p "Enter your domain (e.g., example.com): " DOMAIN
 
   # Ask if they want to install Caddy
-  read -p "Would you like us to install and configure Caddy for you? (yes/no): " install_caddy
+  read -p "Would you like us to install and configure Caddy for you? (y/N): " install_caddy
   if [[ ! "$install_caddy" =~ ^[Yy][Ee][Ss]$ ]]; then
     echo "Continuing setup..."
   fi
@@ -32,8 +32,7 @@ function install_packages() {
     lsof \
     ca-certificates \
     python3 \
-    python3-pip \
-    git
+    python3-pip
 }
 
 function install_docker() {
@@ -71,7 +70,7 @@ function configure_docker_compose() {
 
 function start_docker() {
   echo "Starting Docker Compose..."
-  sudo docker compose up || { echo "Docker Compose failed to start"; exit 1; }
+  sudo docker compose up -d || { echo "Docker Compose failed to start"; exit 1; }
 }
 
 function setup_caddy() {
@@ -116,12 +115,12 @@ EOF
 
 # Main Script Execution
 prompt_user
+configure_docker_compose
 install_packages
 if [[ "$install_caddy" =~ ^[Yy][Ee][Ss]$ ]]; then
   setup_caddy
 fi
 install_docker
-configure_docker_compose
 start_docker
 
 echo ""

@@ -150,15 +150,15 @@ function _ProjectSettings(): JSX.Element {
                     Data Capture Configuration
                 </h2>
                 <IPCapture />
-                <Divider />
+                {/* <Divider />
                 <h2 className="subtitle">Borea Toolbar</h2>
-                <ToolbarSettings />
+                <ToolbarSettings /> */}
                 <Divider />
                 <h2 id="session-recording" className="subtitle" style={{ display: 'flex', alignItems: 'center' }}>
                     Session Recording
-                    <Tag color="orange" style={{ marginLeft: 8 }}>
+                    {/* <Tag color="orange" style={{ marginLeft: 8 }}>
                         BETA
-                    </Tag>
+                    </Tag> */}
                 </h2>
                 <p>
                     Watch sessions replays to see how users interact with your app and find out what can be improved.

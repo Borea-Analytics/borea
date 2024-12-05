@@ -1,9 +1,9 @@
 import { browserPostHog } from 'posthog-js-lite/dist/src/targets/browser'
 
-const apiKey = 'sTMFPsFhdP1Ssg'
-const apiHost = 'https://app.posthog.com'
+const apiKey = 'vMQ-rFksHELqfmbgp3qipL0JBaFph1qJzSIJx4uuKcM'
+const apiHost = 'https://app.borea.dev'
 
-export const posthog = browserPostHog(apiKey, {
+export const borea = browserPostHog(apiKey, {
     apiHost: apiHost,
     optedIn: false, // must call .optIn() before any events are sent
 })

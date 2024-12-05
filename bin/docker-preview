@@ -3,7 +3,7 @@ set -e
 
 export PGDATA=/var/lib/postgresql/data
 
-export DATABASE_URL=postgres://posthog:posthog@localhost:5432/posthog
+export DATABASE_URL=postgres://borea:borea@localhost:5432/borea
 export REDIS_URL=redis://localhost
 export DISABLE_SECURE_SSL_REDIRECT=1 
 export SECURE_COOKIES=0 

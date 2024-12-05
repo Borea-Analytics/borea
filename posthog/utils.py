@@ -236,19 +236,19 @@ def render_template(template_name: str, request: HttpRequest, context: Dict = {}
 
     if settings.SELF_CAPTURE:
         if team:
-            context["js_posthog_api_key"] = f"'{team.api_token}'"
-            context["js_posthog_host"] = "window.location.origin"
+            context["js_borea_api_key"] = f"'{team.api_token}'"
+            context["js_borea_host"] = "window.location.origin"
     else:
-        context["js_posthog_api_key"] = "'2pH-zGegIlKXyfuyPYtuWHfk6EyK-HvtMYoN1ghL_Ow'"
-        context["js_posthog_host"] = "'https://demo.borea.dev'"
+        context["js_borea_api_key"] = "'vMQ-rFksHELqfmbgp3qipL0JBaFph1qJzSIJx4uuKcM'"
+        context["js_borea_host"] = "'https://app.borea.dev'"
 
     html = template.render(context, request=request)
     return HttpResponse(html)
 
 
 def friendly_time(seconds: float):
-    minutes, seconds = divmod(seconds, 60.0)
-    hours, minutes = divmod(minutes, 60.0)
+    minutes, seconds = divmod(float(seconds), 60.0)
+    hours, minutes = divmod(float(minutes), 60.0)
     return "{hours}{minutes}{seconds}".format(
         hours="{h} hours ".format(h=int(hours)) if hours > 0 else "",
         minutes="{m} minutes ".format(m=int(minutes)) if minutes > 0 else "",

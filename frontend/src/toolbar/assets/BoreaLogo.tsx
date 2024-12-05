@@ -1,6 +1,6 @@
 import React from 'react'
 
-export function HogLogo({ style }: React.PropsWithoutRef<JSX.IntrinsicElements['svg']>): JSX.Element {
+export function BoreaLogo({ style }: React.PropsWithoutRef<JSX.IntrinsicElements['svg']>): JSX.Element {
     return (
         <svg
             id="Layer_1"
